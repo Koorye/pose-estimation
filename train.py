@@ -12,8 +12,8 @@ from models.pose_res_net import PoseResNet
 from models.hr_net import hr_w32
 from joints_mse_loss import JointsMSELoss
 from mpii_dataset import MPIIDataset
-
 from utils import heatmaps2rgb
+
 
 seed = 999
 use_model = 'Hourglass_Stack2' # 可选：Hourglass_Stack2, ResNet, HRNet
