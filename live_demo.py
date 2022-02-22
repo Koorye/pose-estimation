@@ -6,8 +6,9 @@ from models.hourglass import hg_stack2
 from models.pose_res_net import PoseResNet
 from models.hr_net import hr_w32
 
-use_model = 'HRNet' # 可选：Hourglass_Stack2, ResNet, HRNet
-ckpt = '' # 模型文件
+
+use_model = 'Hourglass_Stack2' # 可选：Hourglass_Stack2, ResNet, HRNet
+ckpt = 'weights/Hourglass_Stack2_epoch1_loss0.002647276851348579.pth' # 模型文件
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -41,7 +42,7 @@ with torch.no_grad():
         heatmaps_pred = heatmaps_pred.double()
 
         heatmaps_pred_np = heatmaps_pred.squeeze(0).permute(1,2,0).detach().cpu().numpy()
-        coord_joints = heatmaps_to_coords(heatmaps_pred_np, resolu_out=[256, 256], prob_threshold=0.2)
+        coord_joints = heatmaps_to_coords(heatmaps_pred_np, resolu_out=[256, 256], prob_threshold=0.1)
         img_rgb = draw_joints(img_rgb, coord_joints)
 
         img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR) # (h,w,c)

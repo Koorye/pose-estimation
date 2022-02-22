@@ -16,7 +16,7 @@ from utils import heatmaps2rgb
 
 
 seed = 999
-use_model = 'Hourglass_Stack2' # 可选：Hourglass_Stack2, ResNet, HRNet
+use_model = 'ResNet' # 可选：Hourglass_Stack2, ResNet, HRNet
 lr = 1e-3
 bs = 12
 n_epoches = 20
@@ -86,7 +86,7 @@ for ep in range(ep_start, n_epoches+1):
             # 中继监督
             loss1 = criteon(heatmaps_preds[0], heatmaps, target_weight)
             loss2 = criteon(heatmaps_preds[1], heatmaps, target_weight)
-            loss = loss1 + loss2
+            loss = (loss1 + loss2) / 2
 
         optimizer.zero_grad()
         loss.backward()
@@ -113,6 +113,6 @@ for ep in range(ep_start, n_epoches+1):
         'model': model.state_dict(),
         'optim': optimizer.state_dict(),
         'lr_scheduler': lr_scheduler.state_dict(),
-    }, f'weights/{use_model}_epoch{ep}_loss{final_loss}.pth')
+    }, f'weights/{use_model}_epoch{ep}_loss{final_loss:.6f}.pth')
 
     torch.cuda.empty_cache()

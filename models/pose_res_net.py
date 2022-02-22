@@ -12,7 +12,7 @@ class PoseResNet(nn.Module):
         self.bottleneck = nn.Sequential(
             *list(resnet50(pretrained=True).children())[:-2])
 
-        self.deconv_layer1 = nn.ConvTranspose2d(512*4, 256, kernel_size=4,
+        self.deconv_layer1 = nn.ConvTranspose2d(2048, 256, kernel_size=4,
                                                 stride=2, padding=1, bias=False)
         self.de_bn1 = nn.BatchNorm2d(256)
 
@@ -26,10 +26,9 @@ class PoseResNet(nn.Module):
 
         self.final_layer = nn.Conv2d(256, keypoint_num, kernel_size=1)
 
-        nn.init.xavier_uniform_(self.deconv_layer1.weight)
-        nn.init.xavier_uniform_(self.deconv_layer2.weight)
-        nn.init.xavier_uniform_(self.deconv_layer3.weight)
-        nn.init.xavier_uniform_(self.final_layer.weight)
+        nn.init.normal_(self.deconv_layer1.weight, std=.001)
+        nn.init.normal_(self.deconv_layer2.weight, std=.001)
+        nn.init.normal_(self.deconv_layer3.weight, std=.001)
 
         nn.init.constant_(self.de_bn1.weight, 1)
         nn.init.constant_(self.de_bn2.weight, 1)
@@ -37,6 +36,9 @@ class PoseResNet(nn.Module):
         nn.init.constant_(self.de_bn1.bias, 0)
         nn.init.constant_(self.de_bn2.bias, 0)
         nn.init.constant_(self.de_bn3.bias, 0)
+
+        nn.init.normal_(self.final_layer.weight, std=.001)
+        nn.init.constant_(self.final_layer.bias, 0)
 
     def forward(self, x):
         out = self.bottleneck(x)

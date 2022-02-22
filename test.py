@@ -9,8 +9,8 @@ from models.pose_res_net import PoseResNet
 from models.hr_net import hr_w32
 
 
-use_model = 'HRNet' # 可选：Hourglass_Stack2, ResNet, HRNet
-ckpt = 'weights/pretained/pose_hrnet_w32_256x256.pth' # 模型文件
+use_model = 'Hourglass_Stack2' # 可选：Hourglass_Stack2, ResNet, HRNet
+ckpt = 'weights/Hourglass_Stack2_epoch1_loss0.002647276851348579.pth' # 模型文件
 path_testimg = 'data/test_imgs/000402528.jpg' # 测试图片
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

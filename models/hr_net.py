@@ -7,9 +7,14 @@ from models.modules.stage_module import StageModule
 
 def weights_init(m):
     if isinstance(m, nn.Conv2d):
-        nn.init.kaiming_normal_(m.weight)
+        nn.init.normal_(m.weight, std=.01)
         if m.bias is not None:
             nn.init.constant_(m.bias, 0)
+    elif isinstance(m, nn.BatchNorm2d):
+        nn.init.constant_(m.weight, 1)
+        if m.bias is not None:
+            nn.init.constant_(m.bias, 0)
+            
 
 class HRNet(nn.Module):
 
