@@ -16,12 +16,12 @@ from utils import heatmaps2rgb
 
 
 seed = 999
-use_model = 'ResNet' # 可选：Hourglass_Stack2, ResNet, HRNet
+use_model = 'HRNet' # 可选：Hourglass_Stack2, ResNet, HRNet
 lr = 1e-3
-bs = 12
+bs = 8
 n_epoches = 20
-# ckpt = 'weights/Hourglass_Stack2_epoch1.pth' # 历史模型文件
-ckpt = None
+ckpt = 'weights/HRNet_epoch1_loss0.001384.pth' # 历史模型文件
+# ckpt = None
 
 print(f'Use Model: {use_model}')
 if ckpt:
@@ -46,7 +46,7 @@ if use_model == 'Hourglass_Stack2':
 elif use_model == 'ResNet':
     model = PoseResNet().to(device)
 elif use_model == 'HRNet':
-    model = hr_w32(32).to(device)
+    model = hr_w32().to(device)
 else:
     raise NotImplementedError
 
